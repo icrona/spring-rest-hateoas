@@ -28,6 +28,7 @@ public class UserService {
 
         return userRepository.findById(id)
             .map(UserDto::new)
+            .map(UserDto::withAddressLink)
             .get();
     }
 
@@ -35,13 +36,16 @@ public class UserService {
         return userRepository.findAll()
             .stream()
             .map(UserDto::new)
+            .map(UserDto::withSelfLink)
+            .map(UserDto::withAddressLink)
             .collect(Collectors.toList());
     }
 
     public UserDto addUser(UserCmd userCmd) {
 
-        User user = new User(userCmd.getName());
+        User user = new User(userCmd);
 
-        return new UserDto(userRepository.save(user));
+        return new UserDto(userRepository.save(user))
+            .withAddressLink();
     }
 }

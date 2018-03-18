@@ -1,5 +1,6 @@
 package com.icrona.springrest.entity;
 
+import com.icrona.springrest.api.request.UserCmd;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +26,16 @@ public class User {
     @Column
     private String name;
 
-    public User(String name) {
-        this.name = name;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+
+    public User(UserCmd cmd) {
+
+        Address address = new Address();
+        address.setName(cmd.getAddress());
+        address.setCity(cmd.getCity());
+
+        this.name = cmd.getName();
+        this.address = cmd.getAddress() == null ? null : address;
     }
 }

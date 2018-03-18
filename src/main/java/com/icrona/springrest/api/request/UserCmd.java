@@ -12,4 +12,8 @@ import lombok.Data;
 public class UserCmd {
 
     private String name;
+
+    private String address;
+
+    private String city;
 }
